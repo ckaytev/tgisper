@@ -71,4 +71,4 @@ def load_audio(binary_file: BinaryIO, sr: int = SAMPLE_RATE):
 
 def main():
     print("Start polling")
-    bot.polling(none_stop=True, interval=1)
+    bot.infinity_polling(timeout=10, long_polling_timeout = 5)
