@@ -4,6 +4,8 @@
 # tgisper
 Whisper is a general-purpose speech recognition model. It is trained on a large dataset of diverse audio and is also a multi-task model that can perform multilingual speech recognition as well as speech translation and language identification. For more details: [github.com/openai/whisper](https://github.com/openai/whisper/)
 
+faster-whisper is a reimplementation of OpenAI's Whisper model using CTranslate2, which is a fast inference engine for Transformer models. For more details: [github.com/guillaumekln/faster-whisper](https://github.com/guillaumekln/faster-whisper/)
+
 Tgisper is a bot for Telegram using a model from OpenAI to convert voice messages to text. It is enough to record a voice message or send it to the bot from another chat and you're done!
 
 ## Setup and run
@@ -45,6 +47,9 @@ export BOT_ID=3916463517:ABC2tkTGkD9FHl4Ra-jv2Vv6DVECTyeV3Mm
 
 # The list of available models (https://github.com/openai/whisper/#available-models-and-languages)
 export ASR_MODEL=base 
+
+# When running on CPU, make sure to set the same number of threads
+export OMP_NUM_THREADS=2
 ```
 
 Starting the bot polling:
