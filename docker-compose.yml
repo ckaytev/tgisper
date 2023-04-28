@@ -1,0 +1,16 @@
+version: "3.4"
+
+services:
+  tgisper:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - ASR_MODEL=small
+      - OMP_NUM_THREADS=2
+    volumes:
+      - cache:/root/.cache
+    restart: always
+
+volumes:
+  cache:

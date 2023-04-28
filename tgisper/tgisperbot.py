@@ -1,3 +1,4 @@
+import logging
 import os
 from typing import BinaryIO
 
@@ -71,5 +72,5 @@ def load_audio(binary_file: BinaryIO, sr: int = SAMPLE_RATE):
 
 
 def main():
-    print("Start polling")
+    logging.warning("Start polling")
     bot.infinity_polling(timeout=10, long_polling_timeout=5)
