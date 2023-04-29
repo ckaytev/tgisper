@@ -1,4 +1,5 @@
 ![Release](https://img.shields.io/github/v/release/ckaytev/tgisper.svg)
+![Build](https://img.shields.io/github/actions/workflow/status/ckaytev/tgisper/ghcr-publish.yml.svg)
 ![Licence](https://img.shields.io/github/license/ckaytev/tgisper.svg)
 
 # tgisper
@@ -8,7 +9,21 @@ faster-whisper is a reimplementation of OpenAI's Whisper model using CTranslate2
 
 Tgisper is a bot for Telegram using a model from OpenAI to convert voice messages to text. It is enough to record a voice message or send it to the bot from another chat and you're done!
 
-## Setup and run
+
+## Usage
+```bash
+docker run -d \
+-e ASR_MODEL=small \
+-e BOT_ID=3916463517:ABC2tkTGkD9FHl4Ra-jv2Vv6DVECTyeV3Mm \
+-e OMP_NUM_THREADS=2 \
+ghcr.io/ckaytev/tgisper:main
+```
+
+## [Available models and languages](https://github.com/openai/whisper/#available-models-and-languages)
+
+
+
+## Setup and run (Development Environment)
 
 Install command-line tool [`ffmpeg`](https://ffmpeg.org/):
 
@@ -56,4 +71,10 @@ Starting the bot polling:
 
 ```sh
 poetry run tgisper
+```
+
+With docker compose:
+
+```sh
+docker compose run -d -e BOT_ID=3916463517:ABC2tkTGkD9FHl4Ra-jv2Vv6DVECTyeV3Mm tgisper
 ```
