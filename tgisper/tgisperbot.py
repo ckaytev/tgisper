@@ -19,25 +19,24 @@ SAMPLE_RATE = 16000
 def send_welcome(message):
     bot.reply_to(
         message,
-        """
-        Привет! Я бот для распознования голосовых сообщений 🎤
-        Запиши голосовое или перешли его мне ↪️
-        """,
+        "Hello! I'm a voice recognition bot 🎤 \nRecord the voice or send it to me ↪️"
     )
 
 
-@bot.message_handler(content_types=["voice"])
-def get_voice_message(message):
+@bot.message_handler(
+    content_types=["voice"],
+    chat_types=["private", "group", "supergroup"],
+)
+def transcribe_voice_message(message):
     voice_meta = bot.get_file(message.voice.file_id)
-    voice_bytes = bot.download_file(voice_meta.file_path)
-    voice_audio = load_audio(voice_bytes)
+    voice_audio = load_audio(bot.download_file(voice_meta.file_path))
     segments, _ = model.transcribe(
         audio=voice_audio,
         vad_filter=True,
         beam_size=1,
     )
-    text = ' '.join([segment.text for segment in segments])
-    bot.send_message(message.from_user.id, text)
+    text = "".join([segment.text for segment in segments])
+    bot.reply_to(message, text)
 
 
 def load_audio(binary_file: BinaryIO, sr: int = SAMPLE_RATE):
