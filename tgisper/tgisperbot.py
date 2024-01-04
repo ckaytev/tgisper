@@ -7,10 +7,10 @@ import numpy as np
 import telebot
 from faster_whisper import WhisperModel
 
-bot_id = os.getenv("BOT_ID")
+bot_token = os.getenv("BOT_TOKEN")
 model_name = os.getenv("ASR_MODEL", "small")
 
-bot = telebot.TeleBot(bot_id)
+bot = telebot.TeleBot(bot_token)
 model = WhisperModel(model_name, device="cpu", compute_type="float32")
 SAMPLE_RATE = 16000
 

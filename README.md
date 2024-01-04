@@ -14,7 +14,7 @@ Tgisper is a bot for Telegram using a model from OpenAI to convert voice message
 ```bash
 docker run -d \
 -e ASR_MODEL=small \
--e BOT_ID=3916463517:ABC2tkTGkD9FHl4Ra-jv2Vv6DVECTyeV3Mm \
+-e BOT_TOKEN=3916463517:ABC2tkTGkD9FHl4Ra-jv2Vv6DVECTyeV3Mm \
 -e OMP_NUM_THREADS=2 \
 ghcr.io/ckaytev/tgisper:main
 ```
@@ -58,7 +58,7 @@ poetry install
 
 Set environment variable:
 ```sh
-export BOT_ID=3916463517:ABC2tkTGkD9FHl4Ra-jv2Vv6DVECTyeV3Mm
+export BOT_TOKEN=3916463517:ABC2tkTGkD9FHl4Ra-jv2Vv6DVECTyeV3Mm
 
 # The list of available models (https://github.com/openai/whisper/#available-models-and-languages)
 export ASR_MODEL=base 
@@ -76,5 +76,5 @@ poetry run tgisper
 With docker compose:
 
 ```sh
-docker compose run -d -e BOT_ID=3916463517:ABC2tkTGkD9FHl4Ra-jv2Vv6DVECTyeV3Mm tgisper
+docker compose run -d -e BOT_TOKEN=3916463517:ABC2tkTGkD9FHl4Ra-jv2Vv6DVECTyeV3Mm tgisper
 ```
