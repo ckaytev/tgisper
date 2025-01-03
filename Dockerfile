@@ -2,20 +2,20 @@ FROM python:3.10.11-slim
 
 ENV POETRY_VENV=/app/.venv
 
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-    ffmpeg \
-    && rm -rf /var/lib/apt/lists/*
+WORKDIR /app
 
-RUN python3 -m venv $POETRY_VENV \
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends ffmpeg \
+    && rm -rf /var/lib/apt/lists/* \
+    && python3 -m venv $POETRY_VENV \
     && $POETRY_VENV/bin/pip install poetry
 
 ENV PATH="${PATH}:${POETRY_VENV}/bin"
 
-WORKDIR /app
-
-COPY . /app
+COPY poetry.lock pyproject.toml ./
 
 RUN poetry install
+
+COPY tgisper ./tgisper
 
 ENTRYPOINT ["poetry", "run", "tgisper"]

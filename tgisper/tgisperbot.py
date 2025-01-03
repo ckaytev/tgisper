@@ -19,7 +19,7 @@ SAMPLE_RATE = 16000
 def send_welcome(message):
     bot.reply_to(
         message,
-        "Hello! I'm a voice recognition bot 🎤 \nRecord the voice or send it to me ↪️"
+        "Hello! I'm a voice recognition bot 🎤 \nRecord the voice or send it to me ↪️",
     )
 
 
@@ -62,7 +62,12 @@ def load_audio(binary_file: BinaryIO, sr: int = SAMPLE_RATE):
         out, _ = (
             ffmpeg.input("pipe:", threads=0)
             .output("-", format="s16le", acodec="pcm_s16le", ac=1, ar=sr)
-            .run(cmd="ffmpeg", capture_stdout=True, capture_stderr=True, input=binary_file)
+            .run(
+                cmd="ffmpeg",
+                capture_stdout=True,
+                capture_stderr=True,
+                input=binary_file,
+            )
         )
     except ffmpeg.Error as e:
         raise RuntimeError(f"Failed to load audio: {e.stderr.decode()}") from e
