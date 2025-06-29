@@ -3,11 +3,12 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    user: appuser
     environment:
       - ASR_MODEL=small
       - OMP_NUM_THREADS=2
     volumes:
-      - cache:/root/.cache
+      - cache:/home/appuser/.cache
     restart: always
 
 volumes:
