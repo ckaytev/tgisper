@@ -611,6 +611,20 @@ pyyaml = ">=5.1"
 virtualenv = ">=20.10.0"
 
 [[package]]
+name = "prometheus-client"
+version = "0.22.1"
+description = "Python client for the Prometheus monitoring system."
+optional = false
+python-versions = ">=3.9"
+files = [
+    {file = "prometheus_client-0.22.1-py3-none-any.whl", hash = "sha256:cca895342e308174341b2cbf99a56bef291fbc0ef7b9e5412a0f26d653ba7094"},
+    {file = "prometheus_client-0.22.1.tar.gz", hash = "sha256:190f1331e783cf21eb60bca559354e0a4d4378facecf78f5428c39b675d20d28"},
+]
+
+[package.extras]
+twisted = ["twisted"]
+
+[[package]]
 name = "protobuf"
 version = "5.29.0"
 description = ""
@@ -646,13 +660,13 @@ dev = ["build", "flake8", "mypy", "pytest", "twine"]
 
 [[package]]
 name = "pytelegrambotapi"
-version = "4.24.0"
+version = "4.27.0"
 description = "Python Telegram bot api."
 optional = false
 python-versions = ">=3.9"
 files = [
-    {file = "pytelegrambotapi-4.24.0-py3-none-any.whl", hash = "sha256:2d62dc1fb03e65244b6f84d1f21bb235856ffceac8c7fa3dcfba4a09b1e43f2d"},
-    {file = "pytelegrambotapi-4.24.0.tar.gz", hash = "sha256:9e0b5c29f602465f367dfdeb49dadcb2b3fcb2b126caf8da577a0e125c1abd89"},
+    {file = "pytelegrambotapi-4.27.0-py3-none-any.whl", hash = "sha256:f555cecea9dcc48274c2592f8158e0c336654d3c5a4b86ce44342ffa5f76bd86"},
+    {file = "pytelegrambotapi-4.27.0.tar.gz", hash = "sha256:d89362a34eaaa87b0aff6b2f5445a3af082f04193dcaadb481562def84c59ee9"},
 ]
 
 [package.dependencies]
@@ -893,4 +907,4 @@ test = ["covdefaults (>=2.3)", "coverage (>=7.2.7)", "coverage-enable-subprocess
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10.1, <3.11"
-content-hash = "a844906c33dcdba291a3333ad7234f2a1cede49f6a5187fa1faf6243985ab815"
+content-hash = "f5d32a0c3ca0dcd6d9bf537ab7f3e7e792a9140cc9149138c20a2cd941b20fb1"

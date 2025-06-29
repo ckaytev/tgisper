@@ -76,5 +76,5 @@ poetry run tgisper
 With docker compose:
 
 ```sh
-docker compose run -d -e BOT_TOKEN=3916463517:ABC2tkTGkD9FHl4Ra-jv2Vv6DVECTyeV3Mm tgisper
+docker compose run -d -P -e BOT_TOKEN=3916463517:ABC2tkTGkD9FHl4Ra-jv2Vv6DVECTyeV3Mm tgisper
 ```

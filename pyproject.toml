@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "tgisper"
-version = "0.3.3"
+version = "0.4.0"
 description = "Telegram bot for recognizing voice messages based on Whisper models"
 license = "MIT"
 authors = [
@@ -11,10 +11,11 @@ repository = "https://github.com/ckaytev/tgisper"
 
 [tool.poetry.dependencies]
 python = ">=3.10.1, <3.11"
-pytelegrambotapi = "^4.9.0"
+pytelegrambotapi = "4.27.0"
 numpy = "^1.24.3"
 faster-whisper = "1.1.1"
 ffmpeg-python = "^0.2.0"
+prometheus-client = "^0.22.1"
 
 [tool.poetry.scripts]
 tgisper = "tgisper.tgisperbot:main"
