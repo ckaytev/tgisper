@@ -4,6 +4,8 @@ services:
       context: .
       dockerfile: Dockerfile
     user: appuser
+    ports:
+      - 127.0.0.1:8080:8080
     environment:
       - ASR_MODEL=small
       - OMP_NUM_THREADS=2
