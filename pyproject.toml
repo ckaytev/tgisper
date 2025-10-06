@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "tgisper"
-version = "0.4.1"
+version = "0.4.2"
 description = "Telegram bot for recognizing voice messages based on Whisper models"
 license = "MIT"
 authors = [

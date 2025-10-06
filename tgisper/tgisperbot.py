@@ -25,6 +25,10 @@ logging.basicConfig(
     format="%(asctime)s - %(levelname)s - %(message)s",
 )
 
+if not bot_token:
+    logging.error("BOT_TOKEN environment variable is required but not set")
+    sys.exit(1)
+
 bot = telebot.TeleBot(bot_token)
 model = WhisperModel(model_name, device="cpu", compute_type="float32")
 SAMPLE_RATE = 16000
@@ -40,10 +44,10 @@ def send_welcome(message):
 
 
 @bot.message_handler(
-    content_types=["voice"],
+    content_types=["voice", "audio", "document"],
     chat_types=["private", "group", "supergroup"],
 )
-def transcribe_voice_message(message):
+def transcribe_message(message):
     start_time = time.perf_counter()
     labels = {
         "chat_type": message.chat.type,
@@ -54,54 +58,12 @@ def transcribe_voice_message(message):
 
     try:
         logging.debug(
-            f"Received voice message {message.message_id} "
-            f"from chat {message.chat.id}"
-        )
-        voice_meta = bot.get_file(message.voice.file_id)
-        voice_audio = load_audio(bot.download_file(voice_meta.file_path))
-        segments, info = model.transcribe(
-            audio=voice_audio,
-            vad_filter=True,
-            beam_size=1,
-        )
-        DURATION_TIME.labels(**labels).observe(info.duration)
-        text = "".join(segment.text for segment in segments)
-        bot.reply_to(message, text)
-        logging.debug(
-            f"Processed voice message {message.message_id} "
-            f"from chat {message.chat.id}"
-        )
-    except Exception as e:
-        logging.error(f"Error processing voice message: {e}")
-    finally:
-        PROCESSING_TIME.labels(**labels).observe(
-            time.perf_counter() - start_time
-        )
-
-@bot.message_handler(
-    content_types=["audio", "document"],
-    chat_types=["private", "group", "supergroup"],
-)
-def transcribe_audio_message(message):
-    start_time = time.perf_counter()
-    labels = {
-        "chat_type": message.chat.type,
-        "content_type": message.content_type,
-    }
-
-    MESSAGES_TOTAL.labels(**labels).inc()
-
-    try:
-        logging.debug(
-            f"Received audio/document {message.message_id} "
+            f"Received {message.content_type} {message.message_id} "
             f"from chat {message.chat.id}"
         )
 
-        if message.content_type == "audio":
-            file_info = bot.get_file(message.audio.file_id)
-        elif message.content_type == "document":
-            file_info = bot.get_file(message.document.file_id)
-
+        file_id = getattr(message, message.content_type).file_id
+        file_info = bot.get_file(file_id)
         audio_data = load_audio(bot.download_file(file_info.file_path))
         segments, info = model.transcribe(
             audio=audio_data,
@@ -112,15 +74,16 @@ def transcribe_audio_message(message):
         text = "".join(segment.text for segment in segments)
         bot.reply_to(message, text)
         logging.debug(
-            f"Processed audio/document {message.message_id} "
+            f"Processed {message.content_type} {message.message_id} "
             f"from chat {message.chat.id}"
         )
     except Exception as e:
-        logging.error(f"Error processing audio: {e}")
+        logging.error(f"Error processing {message.content_type}: {e}")
     finally:
         PROCESSING_TIME.labels(**labels).observe(
             time.perf_counter() - start_time
         )
+
 
 def load_audio(binary_file: BinaryIO, sr: int = SAMPLE_RATE):
     """Read an audio file object as mono waveform, resampling as necessary.
