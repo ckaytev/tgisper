@@ -78,6 +78,49 @@ def transcribe_voice_message(message):
             time.perf_counter() - start_time
         )
 
+@bot.message_handler(
+    content_types=["audio", "document"],
+    chat_types=["private", "group", "supergroup"],
+)
+def transcribe_audio_message(message):
+    start_time = time.perf_counter()
+    labels = {
+        "chat_type": message.chat.type,
+        "content_type": message.content_type,
+    }
+
+    MESSAGES_TOTAL.labels(**labels).inc()
+
+    try:
+        logging.debug(
+            f"Received audio/document {message.message_id} "
+            f"from chat {message.chat.id}"
+        )
+
+        if message.content_type == "audio":
+            file_info = bot.get_file(message.audio.file_id)
+        elif message.content_type == "document":
+            file_info = bot.get_file(message.document.file_id)
+
+        audio_data = load_audio(bot.download_file(file_info.file_path))
+        segments, info = model.transcribe(
+            audio=audio_data,
+            vad_filter=True,
+            beam_size=1,
+        )
+        DURATION_TIME.labels(**labels).observe(info.duration)
+        text = "".join(segment.text for segment in segments)
+        bot.reply_to(message, text)
+        logging.debug(
+            f"Processed audio/document {message.message_id} "
+            f"from chat {message.chat.id}"
+        )
+    except Exception as e:
+        logging.error(f"Error processing audio: {e}")
+    finally:
+        PROCESSING_TIME.labels(**labels).observe(
+            time.perf_counter() - start_time
+        )
 
 def load_audio(binary_file: BinaryIO, sr: int = SAMPLE_RATE):
     """Read an audio file object as mono waveform, resampling as necessary.
